@@ -1,12 +1,17 @@
 package com.codex.annotation;
 
+import com.codex.annotation.config.Comment;
+import com.codex.annotation.config.DataProxy;
+import com.codex.annotation.sub_codex.Cache;
+import com.codex.annotation.sub_codex.Power;
+
 import java.lang.annotation.*;
 
 /**
- * 如果想要使Entity拥有Codex对应功能，请先在Entity类上加入此注解
+ * 核心注解，在Entity上使用该注解，用以开启Codex相关功能
  *
  * @author evan guo
- * @since 1.0
+ * @since 1.0.0
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
@@ -25,10 +30,10 @@ public @interface Codex {
     @Comment("数据缓存")
     Cache cache() default @Cache;
 
-    @Comment("自动生成表")
+    @Comment("是否自动生成表")
     boolean ddlAuto() default true;
 
-    @Comment("数据源，不填就使用默认的数据源")
-    String ds() default "";
+    @Comment("数据代理行为")
+    Class<? extends DataProxy<?>>[] dataProxy() default {};
 
 }

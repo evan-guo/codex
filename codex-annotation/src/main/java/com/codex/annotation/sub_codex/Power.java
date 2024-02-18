@@ -1,6 +1,10 @@
-package com.codex.annotation;
+package com.codex.annotation.sub_codex;
+
+import com.codex.annotation.config.Comment;
 
 /**
+ * 设置对应接口权限
+ *
  * @author evanguo
  */
 public @interface Power {
@@ -25,7 +29,6 @@ public @interface Power {
 
     @Comment("导入权限")
     boolean importable() default false;
-
 
 
 }

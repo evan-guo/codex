@@ -3,6 +3,7 @@ package com.codex.core.scan;
 import com.codex.core.CodexAutoConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springdoc.webmvc.api.OpenApiResource;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -29,11 +30,13 @@ public class CodexScannerConfigurerRegistrar implements BeanFactoryAware, Enviro
     private final Logger logger = LoggerFactory.getLogger(CodexAutoConfiguration.class);
     private BeanFactory beanFactory;
     private Environment environment;
+    public static List<String> static_packages;
 
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
         if (!AutoConfigurationPackages.has(this.beanFactory)) {
             logger.warn("Could not determine auto-configuration package, automatic scanning disabled.");
         } else {
+
             if (!isEnabled()) {
                 logger.warn("The Codex is disabled, stop scanning Codex class. If you want Codex to start working, configure codex.enable = true.");
                 return;
@@ -43,6 +46,7 @@ public class CodexScannerConfigurerRegistrar implements BeanFactoryAware, Enviro
             if (logger.isDebugEnabled()) {
                 packages.forEach((pkg) -> logger.debug("Using auto-configuration base package '{}'", pkg));
             }
+            CodexScannerConfigurerRegistrar.static_packages = packages;
             BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(CodexScannerConfigurer.class);
             builder.addPropertyValue("basePackage", StringUtils.collectionToCommaDelimitedString(packages));
             builder.setRole(2);

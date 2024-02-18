@@ -1,4 +1,4 @@
-package com.codex.core.config;
+package com.codex.core.mybatis;
 
 import com.mybatisflex.core.audit.AuditManager;
 import org.slf4j.Logger;

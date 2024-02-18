@@ -1,13 +1,14 @@
 package com.codex.core.database;
 
 import cn.hutool.core.util.ModifierUtil;
+import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.codex.annotation.CodexField;
 import com.codex.core.database.pojo.TableColumnDefinition;
 import com.codex.core.database.pojo.TableDefinition;
 import com.codex.core.database.table.TableExecutor;
 import com.codex.core.database.table.TableExecutorFactory;
-import com.codex.core.model.CodexModel;
+import com.codex.core.scan.CodexModel;
 import com.codex.core.scan.CodexScanner;
 import com.codex.core.util.CodexReflectUtil;
 import com.mybatisflex.annotation.Column;
@@ -16,6 +17,9 @@ import com.mybatisflex.annotation.Table;
 import com.mybatisflex.core.FlexGlobalConfig;
 import com.mybatisflex.core.datasource.DataSourceKey;
 import com.mybatisflex.core.datasource.FlexDataSource;
+import com.mybatisflex.core.table.ColumnInfo;
+import com.mybatisflex.core.table.IdInfo;
+import com.mybatisflex.core.table.TableInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -76,32 +80,54 @@ public class CodexTableAutoScanner {
      * 绑定表，封装字段信息和数据源等
      */
     private void bindTable(CodexModel codexModel) {
-        String dataSource = "";
-        String tableName;
-        // 拿到MybatisFlex的@Table注解
-        Table tableAnnotation = codexModel.getClazz().getAnnotation(Table.class);
-        if (tableAnnotation != null) {
-            tableName = tableAnnotation.value();
-            if (StringUtils.hasText(tableAnnotation.dataSource())) {
-                dataSource = tableAnnotation.dataSource();
+        TableInfo tableInfo = codexModel.getTableInfo();
+
+        Map<String, ColumnInfo> columnInfoMap = tableInfo.getColumnInfoList().stream().collect(Collectors.toMap(ColumnInfo::getProperty, c -> c));
+        Map<String, ColumnInfo> idInfoMap = tableInfo.getPrimaryKeyList().stream().collect(Collectors.toMap(IdInfo::getProperty, c -> c));
+
+        List<TableColumnDefinition> columnDefinitions = new ArrayList<>();
+        List<Field> fieldList = CodexReflectUtil.getFields(codexModel.getClazz(), field -> columnInfoMap.containsKey(field.getName()) || idInfoMap.containsKey(field.getName()));
+        for (IdInfo idInfo : tableInfo.getPrimaryKeyList()) {
+            String property = idInfo.getProperty();
+            Field field = ReflectUtil.getField(codexModel.getClazz(), property);
+            TableColumnDefinition columnDefinition = TableColumnDefinition.builder()
+                    .table(tableInfo.getTableName())
+                    .name(idInfo.getColumn())
+                    .isPrimaryKey(true)
+                    .isNullable(false)
+                    .dataType(TableColumnDefinition.getDataType(field))
+                    .build();
+            columnDefinitions.add(columnDefinition);
+        }
+        for (Field field : fieldList) {
+            if (columnInfoMap.containsKey(field.getName())) {
+                ColumnInfo columnInfo = columnInfoMap.get(field.getName());
+                CodexField codexField = field.getAnnotation(CodexField.class);
+                TableColumnDefinition columnDefinition = TableColumnDefinition.builder()
+                        .table(tableInfo.getTableName())
+                        .name(columnInfo.getColumn())
+                        .isNullable(codexField == null || !codexField.notNull())
+                        .dataType(TableColumnDefinition.getDataType(field))
+                        .build();
+                if (codexField != null) {
+                    columnDefinition.setComment(StringUtils.hasText(codexField.desc()) ? codexField.desc() : codexField.name());
+                }
+                columnDefinitions.add(columnDefinition);
             }
-        } else {
-            tableName = StrUtil.toUnderlineCase(codexModel.getClazzName());
         }
         String comment = StringUtils.hasText(codexModel.getCodex().desc()) ? codexModel.getCodex().desc() : codexModel.getCodex().name();
-        List<TableColumnDefinition> codexFieldDefinitions = getCodexFieldDefinitions(tableName, codexModel, tableAnnotation);
         TableDefinition tableDefinition = TableDefinition.builder()
-                .dataSource(dataSource)
-                .name(tableName)
+                .dataSource(tableInfo.getDataSource())
+                .name(tableInfo.getTableName())
                 .comment(comment)
-                .columns(codexFieldDefinitions)
+                .columns(columnDefinitions)
                 .build();
-        if (schemaTables.containsKey(dataSource)) {
-            schemaTables.get(dataSource).add(tableDefinition);
+        if (schemaTables.containsKey(tableInfo.getDataSource())) {
+            schemaTables.get(tableInfo.getDataSource()).add(tableDefinition);
         } else {
             ArrayList<TableDefinition> arrayList = new ArrayList<>();
             arrayList.add(tableDefinition);
-            schemaTables.put(dataSource, arrayList);
+            schemaTables.put(tableInfo.getDataSource(), arrayList);
         }
     }
 
@@ -134,10 +160,14 @@ public class CodexTableAutoScanner {
             if (column != null && StringUtils.hasText(column.value())) {
                 builder.name(column.value());
             } else {
-                builder.name(table.camelToUnderline() ? StrUtil.toUnderlineCase(field.getName()) : field.getName());
+                if (table != null) {
+                    builder.name(table.camelToUnderline() ? StrUtil.toUnderlineCase(field.getName()) : field.getName());
+                } else {
+                    builder.name(StrUtil.toUnderlineCase(field.getName()));
+                }
             }
             if (codexField != null) {
-                builder.comment(StringUtils.hasText(codexField.desc()) ? codexField.desc() : codexField.title());
+                builder.comment(StringUtils.hasText(codexField.desc()) ? codexField.desc() : codexField.name());
             }
             builder.table(tableName)
                     .isNullable(codexField == null || !codexField.notNull())

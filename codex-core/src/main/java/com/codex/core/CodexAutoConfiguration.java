@@ -2,6 +2,7 @@ package com.codex.core;
 
 import cn.hutool.extra.spring.EnableSpringUtil;
 import com.codex.core.properties.CodexProperties;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
  * @author evan guo
  * @since 1.0
  */
+@MapperScan("com.codex.core.mybatis")
 @ComponentScan
 @EnableSpringUtil
 @EnableConfigurationProperties({CodexProperties.class})

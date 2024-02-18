@@ -24,6 +24,11 @@ public class CodexProperties {
      */
     private DbConfig db;
 
+    /**
+     * 通用响应对象的包范围
+     */
+    private String responseAdvicePackages;
+
     @Setter
     @Getter
     public static class DbConfig {
@@ -31,7 +36,6 @@ public class CodexProperties {
          * 自动建表
          */
         private boolean ddlAuto = false;
-
     }
 
 
