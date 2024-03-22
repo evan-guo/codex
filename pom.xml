@@ -18,17 +18,20 @@
 
 	<properties>
 		<java.version>11</java.version>
-		<mybatis-flex.version>1.7.5</mybatis-flex.version>
+		<spring.boot.version>2.7.11</spring.boot.version>
+		<mybatis-flex.version>1.8.0</mybatis-flex.version>
 		<hutool.version>5.8.24</hutool.version>
 	</properties>
 
 	<modules>
+		<!-- 注解 -->
 		<module>codex-annotation</module>
-		<module>codex-db</module>
+		<!-- 核心功能 -->
 		<module>codex-core</module>
+		<!-- 管理后台 -->
         <module>codex-admin</module>
-        <module>codex-codegen</module>
-		<module>codex-test</module>
+		<!-- 登录鉴权模块 -->
+		<module>codex-security</module>
 	</modules>
 
 	<repositories>
@@ -41,6 +44,15 @@
 
 	<dependencyManagement>
 		<dependencies>
+			<!--SpringBoot版本-->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-parent</artifactId>
+				<version>${spring.boot.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<!--MyBatisFlex版本-->
 			<dependency>
 				<groupId>com.mybatis-flex</groupId>
 				<artifactId>mybatis-flex-dependencies</artifactId>
@@ -48,6 +60,7 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<!--HuTool工具包版本-->
 			<dependency>
 				<groupId>cn.hutool</groupId>
 				<artifactId>hutool-bom</artifactId>

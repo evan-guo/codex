@@ -1,4 +1,4 @@
-package com.codex.core.mapper;
+package com.codex.core.mybatis.mapper;
 
 import com.codex.core.config.CodexConstants;
 import com.codex.core.mybatis.CodexEntitySqlProvider;

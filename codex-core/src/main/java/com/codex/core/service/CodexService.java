@@ -9,7 +9,7 @@ import com.codex.annotation.sub_field.SearchType;
 import com.codex.core.api.query.PageQueryVo;
 import com.codex.core.scan.CodexFieldModel;
 import com.codex.core.scan.CodexModel;
-import com.codex.core.mapper.CodexMapper;
+import com.codex.core.mybatis.mapper.CodexMapper;
 import com.codex.core.proxy.DataProxyInvoke;
 import com.codex.core.scan.CodexScanner;
 import com.codex.core.util.PowerUtil;

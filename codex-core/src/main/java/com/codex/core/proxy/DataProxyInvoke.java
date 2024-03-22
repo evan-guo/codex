@@ -1,6 +1,7 @@
 package com.codex.core.proxy;
 
 import cn.hutool.extra.spring.SpringUtil;
+import com.codex.annotation.sub_codex.DataProxy;
 import com.codex.core.scan.CodexModel;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;

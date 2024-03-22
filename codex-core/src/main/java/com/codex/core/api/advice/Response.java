@@ -1,8 +1,6 @@
 package com.codex.core.api.advice;
 
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -23,30 +21,30 @@ public class Response<T> implements Serializable {
     /**
      * 响应信息，用来说明响应情况
      */
-    @Schema(title = "msg", description = "响应信息")
-    private String msg;
+    @Schema(title = "message", description = "响应信息")
+    private String message;
 
     /**
      * 响应的具体数据
      */
-    @Schema(title = "data", description = "响应数据")
-    private T data;
+    @Schema(title = "result", description = "响应数据")
+    private T result;
 
-    public Response(T data) {
+    public Response(T result) {
         this.code = ErrorCodeEnum.SUCCESS.getCode();
-        this.msg = ErrorCodeEnum.SUCCESS.getMsg();
-        this.data = data;
+        this.message = ErrorCodeEnum.SUCCESS.getMsg();
+        this.result = result;
     }
 
-    public Response(int code, String msg) {
+    public Response(int code, String message) {
         this.code = code;
-        this.msg = msg;
+        this.message = message;
     }
 
-    public Response(int code, String msg, T data) {
+    public Response(int code, String message, T result) {
         this.code = code;
-        this.msg = msg;
-        this.data = data;
+        this.message = message;
+        this.result = result;
     }
 
 }

@@ -40,21 +40,19 @@ public class GlobalExceptionHandlerAdvice {
      * 业务异常
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(ApiException.class)
+    @ExceptionHandler({ApiException.class})
     public Response<Object> apiExceptionHandler(ApiException e) {
         log.error("handle ApiException", e);
-        e.printStackTrace();
         return new Response<>(e.getCode(), e.getMsg(), e.getData());
     }
 
     /**
      * 其他不可知异常
      */
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
     public Response<String> runtimeExceptionHandler(Exception e) {
         log.error("handle Exception, message: " + e.getMessage(), e);
-        e.printStackTrace();
         return new Response<>(ErrorCodeEnum.SYSTEM_ERROR.getCode(), e.getMessage());
     }
 

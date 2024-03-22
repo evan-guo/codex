@@ -1,4 +1,4 @@
-package com.codex.core.mapper;
+package com.codex.core.mybatis.mapper;
 
 import com.mybatisflex.core.BaseMapper;
 import com.mybatisflex.core.mybatis.Mappers;

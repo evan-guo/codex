@@ -1,8 +1,8 @@
 package com.codex.annotation;
 
 import com.codex.annotation.config.Comment;
-import com.codex.annotation.config.DataProxy;
 import com.codex.annotation.sub_codex.Cache;
+import com.codex.annotation.sub_codex.DataProxy;
 import com.codex.annotation.sub_codex.Power;
 
 import java.lang.annotation.*;

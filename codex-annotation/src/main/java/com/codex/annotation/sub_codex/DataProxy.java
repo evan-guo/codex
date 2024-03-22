@@ -1,4 +1,4 @@
-package com.codex.core.proxy;
+package com.codex.annotation.sub_codex;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.codex.annotation.config.Comment;
