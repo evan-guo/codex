@@ -3,14 +3,14 @@ package com.codex.security.captcha;
 import cn.hutool.core.util.StrUtil;
 import com.codex.security.exception.CaptchaException;
 import com.codex.security.properties.SecurityCacheKey;
-import com.codex.security.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.Map;
 
 /**
  * @author guo_wei
- * @date 2023-01-13
+ * @since 2023-01-13
  * 抽象验证码处理器，实现了一些共用的逻辑
  */
 public abstract class AbstractCaptchaProcessor<C extends Captcha> implements CaptchaProcessor {
@@ -20,6 +20,8 @@ public abstract class AbstractCaptchaProcessor<C extends Captcha> implements Cap
      */
     @Autowired
     private Map<String, CaptchaGenerator> captchaGeneratorMap;
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
 
     /**
      * 发送验证码的接口方法，需要具体子类实现
@@ -61,7 +63,7 @@ public abstract class AbstractCaptchaProcessor<C extends Captcha> implements Cap
     @SuppressWarnings("unchecked")
     private C generate() {
         String captchaType = StrUtil.subBefore(getClass().getSimpleName(), "CaptchaProcessor", true);
-        String generatorName = captchaType + CaptchaGenerator.class.getSimpleName();
+        String generatorName = StrUtil.lowerFirst(captchaType) + CaptchaGenerator.class.getSimpleName();
         CaptchaGenerator captchaGenerator = captchaGeneratorMap.get(generatorName);
         if (captchaGenerator == null) {
             throw new CaptchaException("验证码生成器" + generatorName + "不存在");
@@ -72,11 +74,11 @@ public abstract class AbstractCaptchaProcessor<C extends Captcha> implements Cap
     /**
      * 保存验证码
      * @param account 账号
-     * @param validateCode  验证码
+     * @param captcha  验证码
      */
-    private void save(String account, C validateCode) {
-        String captchaType = StrUtil.subBefore(getClass().getSimpleName(), "CaptchaProcessor", true);
-        RedisUtil.hset(SecurityCacheKey.SECURITY_CAPTCHA + captchaType, account, validateCode);
+    private void save(String account, C captcha) {
+        String captchaType = StrUtil.lowerFirst(StrUtil.subBefore(getClass().getSimpleName(), "CaptchaProcessor", true));
+        redisTemplate.opsForHash().put(SecurityCacheKey.SECURITY_CAPTCHA + captchaType, account, captcha);
     }
 
     /**
@@ -84,9 +86,10 @@ public abstract class AbstractCaptchaProcessor<C extends Captcha> implements Cap
      * @param account   账号
      * @return 验证码
      */
+    @SuppressWarnings("unchecked")
     private C get(String account) {
-        String captchaType = StrUtil.subBefore(getClass().getSimpleName(), "CaptchaProcessor", true);
-        return RedisUtil.hget(SecurityCacheKey.SECURITY_CAPTCHA + captchaType, account);
+        String captchaType = StrUtil.lowerFirst(StrUtil.subBefore(getClass().getSimpleName(), "CaptchaProcessor", true));
+        return (C) redisTemplate.opsForHash().get(SecurityCacheKey.SECURITY_CAPTCHA + captchaType, account);
     }
 
     /**
@@ -95,7 +98,7 @@ public abstract class AbstractCaptchaProcessor<C extends Captcha> implements Cap
      */
     private void del(String account) {
         String captchaType = StrUtil.subBefore(getClass().getSimpleName(), "CaptchaProcessor", true);
-        RedisUtil.hdel(SecurityCacheKey.SECURITY_CAPTCHA + captchaType, account);
+        redisTemplate.opsForHash().delete(SecurityCacheKey.SECURITY_CAPTCHA + captchaType, account);
     }
 
 }

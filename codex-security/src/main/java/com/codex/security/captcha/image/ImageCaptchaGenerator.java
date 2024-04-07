@@ -2,6 +2,8 @@ package com.codex.security.captcha.image;
 
 import com.codex.security.captcha.Captcha;
 import com.codex.security.captcha.CaptchaGenerator;
+import com.codex.security.exception.CaptchaException;
+import com.codex.security.exception.SecurityException;
 import com.codex.security.properties.SecurityCaptchaProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -11,18 +13,21 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 /**
- * @author guowei
+ * @author evan guo
  * @since 2023-01-13
  * 图形验证码生成器
  */
 @RequiredArgsConstructor
-@Component("imageCaptchaGenerator")
+@Component
 public class ImageCaptchaGenerator implements CaptchaGenerator {
 
     private final SecurityCaptchaProperties captchaProperties;
 
     @Override
     public Captcha generate() {
+        if (!captchaProperties.getEmail().getEnable()) {
+            throw new CaptchaException("未开启图片验证码功能");
+        }
         // 取出图片宽高参数
         int width = captchaProperties.getImage().getWidth();
         int height = captchaProperties.getImage().getHeight();

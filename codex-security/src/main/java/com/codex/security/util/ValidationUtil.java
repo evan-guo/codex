@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * @author guowei
+ * @author evan guo
  * @since 2023-01-16
  * 校验工具，被校验的Bean的字段属性需使用javax.validation系列注解
  */

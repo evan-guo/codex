@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * 短信验证码处理器
  */
 @RequiredArgsConstructor
-@Component("smsCaptchaProcessor")
+@Component
 public class SmsCaptchaProcessor extends AbstractCaptchaProcessor<Captcha> {
 
     private final SmsCaptchaSender smsCaptchaSender;

@@ -1,23 +1,23 @@
-package com.codex.security.sms;
+package com.codex.security.authentication.sms;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Component;
 
 /**
- * @author guowei
+ * @author evan guo
  * @since 2023-01-16
  * 短信登录验证逻辑，由于短信验证码的验证在过滤器里已完成，这里直接读取用户信息即可
  */
-public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
+@RequiredArgsConstructor
+@Component
+public class SmsAuthenticationProvider implements AuthenticationProvider {
 
-    private UserDetailsService userDetailsService;
-
-    public void setUserDetailsService(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
+    private final UserDetailsService userDetailsService;
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -28,13 +28,13 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
             throw new SecurityException("无法获取用户信息");
         }
         // 包装用户信息
-        SmsCodeAuthenticationToken authenticationToken = new SmsCodeAuthenticationToken(userDetails, userDetails.getAuthorities());
+        SmsAuthenticationToken authenticationToken = new SmsAuthenticationToken(userDetails, userDetails.getAuthorities());
         authenticationToken.setDetails(authentication.getDetails());
         return authenticationToken;
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return SmsCodeAuthenticationToken.class.isAssignableFrom(authentication);
+        return SmsAuthenticationToken.class.isAssignableFrom(authentication);
     }
 }

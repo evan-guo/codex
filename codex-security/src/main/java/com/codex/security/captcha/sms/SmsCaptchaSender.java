@@ -1,7 +1,7 @@
 package com.codex.security.captcha.sms;
 
 /**
- * @author guowei
+ * @author evan guo
  * @since 2023-01-13
  * 短信发送器，实现它以支持不同的短信供应商逻辑
  */

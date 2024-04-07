@@ -9,12 +9,12 @@ import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author guowei
+ * @author evan guo
  * @since 2023-01-13
  * 图片验证码处理器
  */
 @RequiredArgsConstructor
-@Component("imageCaptchaProcessor")
+@Component
 public class ImageCaptchaProcessor extends AbstractCaptchaProcessor<ImageCaptcha> {
 
     private final HttpServletResponse response;

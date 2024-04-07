@@ -1,4 +1,4 @@
-package com.codex.security.sms;
+package com.codex.security.authentication.sms;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -14,13 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @author guowei
+ * @author evan guo
  * @since 2023-01-16
  * 短信登录过滤器
  */
-public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
+public class SmsAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
-    protected SmsCodeAuthenticationFilter() {
+    protected SmsAuthenticationFilter() {
         super(new AntPathRequestMatcher("/oauth/login/phone", HttpMethod.POST.name()));
     }
 
@@ -30,7 +30,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         }
         String username = ServletRequestUtils.getStringParameter(request, "username", "");
-        SmsCodeAuthenticationToken authenticationToken = new SmsCodeAuthenticationToken(username);
+        SmsAuthenticationToken authenticationToken = new SmsAuthenticationToken(username.trim());
         authenticationToken.setDetails(authenticationDetailsSource.buildDetails(request));
         return this.getAuthenticationManager().authenticate(authenticationToken);
     }

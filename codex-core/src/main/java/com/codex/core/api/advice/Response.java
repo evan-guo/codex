@@ -6,7 +6,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @author gw
+ * @author evan guo
  * 定义数据返回格式
  */
 @Data

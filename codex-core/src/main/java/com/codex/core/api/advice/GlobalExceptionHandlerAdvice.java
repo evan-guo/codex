@@ -15,7 +15,7 @@ import java.util.Objects;
  * 用于拦截所有的@RestController,增加对APIException的拦截，并修改异常时返回的数据格式。
  * 需要注意的是：基于@ControllerAdvice注解的全局异常统一处理只能针对于Controller层的异常，意思是只能捕获到Controller层的异常，在service层或者其他层面的异常都不能捕获。
  *
- * @author GW
+ * @author evan guo
  */
 @RestControllerAdvice
 @Slf4j

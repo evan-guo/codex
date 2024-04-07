@@ -16,12 +16,12 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
- * @author guowei
+ * @author evan guo
  * SpringSecuirty配置
  */
 @EnableWebSecurity
 @Configuration
-public class SecurityConfig {
+public class SpringSecurityConfig {
 
     /**
      * 配置 Spring Security 中的过滤器链
@@ -35,7 +35,6 @@ public class SecurityConfig {
                 // 关闭session
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().build();
-
     }
 
     /**

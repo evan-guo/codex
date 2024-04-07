@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  * @author guo_wei
- * @date 2023-01-13
+ * @since 2023-01-13
  * 验证码处理器工厂
  */
 @RequiredArgsConstructor
@@ -32,7 +32,7 @@ public class CaptchaProcessorFactory {
      * @return  验证码处理器
      */
     public CaptchaProcessor findCaptchaProcessor(String type) {
-        String className = type.toLowerCase() + CaptchaProcessor.class.getSimpleName();
+        String className = type + CaptchaProcessor.class.getSimpleName();
         CaptchaProcessor captchaProcessor = captchaProcessors.get(className);
         if (captchaProcessor == null) {
             throw new CaptchaException("验证码处理器" + className + "不存在");

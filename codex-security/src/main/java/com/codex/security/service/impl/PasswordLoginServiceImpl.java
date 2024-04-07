@@ -5,14 +5,14 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.jwt.JWTPayload;
 import cn.hutool.jwt.JWTUtil;
 import com.alibaba.fastjson2.JSONObject;
-import com.codex.security.constant.constant.CacheConstant;
-import com.codex.security.model.form.UserLoginForm;
-import com.codex.security.properties.LoginTokenProperties;
+import com.codex.security.form.form.UserLoginForm;
+import com.codex.security.properties.TokenProperties;
+import com.codex.security.properties.SecurityCacheKey;
 import com.codex.security.service.LoginService;
-import com.codex.security.util.RedisUtil;
 import com.codex.security.util.ValidationUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 
 /**
- * @author guowei
+ * @author evan guo
  * @since 2023-01-16
  * 账号密码登录实现
  */
@@ -32,7 +32,8 @@ import java.util.Objects;
 public class PasswordLoginServiceImpl implements LoginService {
 
     private final AuthenticationManager authenticationManager;
-    private final LoginTokenProperties loginTokenProperties;
+    private final TokenProperties tokenProperties;
+    private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
     public String login(UserLoginForm form) {
@@ -43,12 +44,12 @@ public class PasswordLoginServiceImpl implements LoginService {
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
         // 认证失败
         if (Objects.isNull(authenticate)){
-            throw new SecurityException("登录失败");
+            throw new SecurityException("登录认证失败");
         }
         // 准备生成Token的参数
         JSONObject payload  = new JSONObject();
         DateTime now = DateTime.now();
-        DateTime newTime = now.offsetNew(DateField.MINUTE, (int) loginTokenProperties.getDuration().toMinutes());
+        DateTime newTime = now.offsetNew(DateField.MINUTE, (int) tokenProperties.getDuration().toMinutes());
         // 签发时间
         payload.put(JWTPayload.ISSUED_AT, now);
         // 过期时间
@@ -60,10 +61,10 @@ public class PasswordLoginServiceImpl implements LoginService {
         String username = user.getUsername();
         payload.put("username", username);
         // 生成Token
-        String token = JWTUtil.createToken(payload, loginTokenProperties.getSecret().getBytes());
+        String token = JWTUtil.createToken(payload, tokenProperties.getSecret().getBytes());
         // 相关信息存入Redis
-        RedisUtil.set(CacheConstant.LOGIN_TOKEN + token, username);
-        RedisUtil.set(CacheConstant.LOGIN_USER + username, user);
+        redisTemplate.opsForValue().set(SecurityCacheKey.OAUTH_TOKEN + token, username, tokenProperties.getDuration());
+        redisTemplate.opsForValue().set(SecurityCacheKey.OAUTH_USER + username, user, tokenProperties.getDuration());
         return token;
     }
 }

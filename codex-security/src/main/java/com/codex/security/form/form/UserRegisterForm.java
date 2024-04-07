@@ -1,4 +1,4 @@
-package com.codex.security.model.form;
+package com.codex.security.form.form;
 
 import com.alibaba.fastjson2.JSONObject;
 import lombok.Data;
@@ -6,7 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 
 /**
- * @author guowei
+ * @author evan guo
  * @since 2023-01-16
  * 用户注册参数
  */

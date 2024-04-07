@@ -25,7 +25,7 @@ import java.util.*;
 /**
  * 重写MyBatis-Flex的{@link com.mybatisflex.core.provider.EntitySqlProvider}
  *
- * @author guowei
+ * @author evan guo
  * @since 1.0.0
  */
 public class CodexEntitySqlProvider {

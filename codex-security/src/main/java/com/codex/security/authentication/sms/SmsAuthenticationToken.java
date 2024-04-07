@@ -1,4 +1,4 @@
-package com.codex.security.sms;
+package com.codex.security.authentication.sms;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -6,21 +6,21 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 
 /**
- * @author guowei
+ * @author evan guo
  * @since 2023-01-16
  * 短信登录验证信息封装
  */
-public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
+public class SmsAuthenticationToken extends AbstractAuthenticationToken {
 
     private final Object principal;
 
-    public SmsCodeAuthenticationToken(String phone) {
+    public SmsAuthenticationToken(String phone) {
         super(null);
         this.principal = phone;
         super.setAuthenticated(false);
     }
 
-    public SmsCodeAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
+    public SmsAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         this.principal = principal;
         super.setAuthenticated(true);

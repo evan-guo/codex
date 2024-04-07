@@ -1,7 +1,7 @@
 package com.codex.core.api.advice;
 
 /**
- * @author gw
+ * @author evan guo
  * 错误码枚举,根据需要随时添加错误信息
  */
 public enum ErrorCodeEnum {

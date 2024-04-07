@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
- * @author guowei
+ * @author evan guo
  * @since 2023-01-13
  * 默认的短信验证码发送器
  */

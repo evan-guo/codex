@@ -5,18 +5,18 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
- * @author guowei
+ * @author evan guo
  * @since 2023-01-12
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "security")
+@ConfigurationProperties(prefix = "codex.security")
 public class SecurityProperties {
 
     /**
      * 登录Token配置
      */
-    private LoginTokenProperties token;
+    private TokenProperties token;
 
     /**
      * 登录验证码配置

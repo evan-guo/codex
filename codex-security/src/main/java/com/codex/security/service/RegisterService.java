@@ -1,9 +1,9 @@
 package com.codex.security.service;
 
-import com.codex.security.model.form.UserRegisterForm;
+import com.codex.security.form.form.UserRegisterForm;
 
 /**
- * @author guowei
+ * @author evan guo
  * @since 2023-03-25
  * 注册服务
  */

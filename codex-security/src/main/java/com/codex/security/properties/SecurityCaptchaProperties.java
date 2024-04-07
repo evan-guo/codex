@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 
 /**
- * @author guowei
+ * @author evan guo
  * @since 2023-01-12
  * 登录验证码参数配置
  */
 @Data
 @Component
-@ConfigurationProperties(prefix = "security.captcha")
+@ConfigurationProperties(prefix = "codex.security.captcha")
 public class SecurityCaptchaProperties {
     /**
      * 短信验证码
@@ -27,10 +27,14 @@ public class SecurityCaptchaProperties {
     /**
      * 邮箱验证码
      */
-    private EmailCodeProperties email = new EmailCodeProperties();
+    private EmailCaptchaProperties email = new EmailCaptchaProperties();
 
     @Data
     public static class SmsCaptchaProperties {
+        /**
+         * 是否开启
+         */
+        private Boolean enable = false;
         /**
          * 验证码长度
          */
@@ -38,7 +42,7 @@ public class SecurityCaptchaProperties {
         /**
          * 验证码有效期，默认5分钟
          */
-        private Duration duration = Duration.ofSeconds(300);
+        private Duration duration = Duration.ofMinutes(5);
     }
 
     @EqualsAndHashCode(callSuper = true)
@@ -61,7 +65,7 @@ public class SecurityCaptchaProperties {
 
     @EqualsAndHashCode(callSuper = true)
     @Data
-    public static class EmailCodeProperties extends SmsCaptchaProperties {
+    public static class EmailCaptchaProperties extends SmsCaptchaProperties {
         /**
          * 邮箱账号
          */
@@ -85,7 +89,11 @@ public class SecurityCaptchaProperties {
         /**
          * 验证码邮件主题
          */
-        private String subject;
+        private String subject = "验证码";
+        /**
+         * 使用SSL安全连接
+         */
+        private Boolean sslEnable = false;
     }
 
 }

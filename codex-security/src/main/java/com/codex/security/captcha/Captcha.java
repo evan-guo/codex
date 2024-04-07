@@ -1,16 +1,24 @@
 package com.codex.security.captcha;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
 /**
- * @author guowei
+ * @author evan guo
  * @since 2023-01-13
  * 验证码抽象类
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
+@NoArgsConstructor
 @Data
 public class Captcha implements Serializable {
 
@@ -18,6 +26,8 @@ public class Captcha implements Serializable {
 
     private String code;
 
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime expireTime;
 
     public Captcha(String code, Duration duration) {

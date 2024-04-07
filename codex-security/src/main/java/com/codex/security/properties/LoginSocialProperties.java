@@ -1,7 +1,7 @@
 package com.codex.security.properties;
 
 /**
- * @author guowei
+ * @author evan guo
  * @since 2023-01-13
  * 社交软件登录配置
  */

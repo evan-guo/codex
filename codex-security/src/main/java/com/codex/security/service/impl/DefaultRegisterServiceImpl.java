@@ -1,7 +1,7 @@
 package com.codex.security.service.impl;
 
-import com.codex.security.model.form.UserLoginForm;
-import com.codex.security.model.form.UserRegisterForm;
+import com.codex.security.form.form.UserLoginForm;
+import com.codex.security.form.form.UserRegisterForm;
 import com.codex.security.service.RegisterCustomizer;
 import com.codex.security.service.RegisterService;
 import com.codex.security.util.ValidationUtil;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * @author guowei
+ * @author evan guo
  * @since 2023-03-25
  */
 @RequiredArgsConstructor

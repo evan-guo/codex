@@ -15,11 +15,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 /**
- * @author gw
+ * @author evan guo
  * RestControllerAdvice 既可以全局拦截异常也可拦截指定包下正常的返回值，可以对返回值进行修改。<p>
  * basePackages 指定要拦截那个package下的Controller
  */
-@RestControllerAdvice(basePackageClasses = {SpringApplication.class, CodexAutoConfiguration.class})
+@RestControllerAdvice(basePackageClasses = {SpringApplication.class, CodexAutoConfiguration.class}, basePackages = "com.codex")
 public class ResponseControllerAdvice implements ResponseBodyAdvice<Object> {
 
     /**

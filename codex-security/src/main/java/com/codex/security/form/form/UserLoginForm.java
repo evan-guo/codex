@@ -1,11 +1,11 @@
-package com.codex.security.model.form;
+package com.codex.security.form.form;
 
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
 
 /**
- * @author guowei
+ * @author evan guo
  * @since 2023-01-05
  * 用户登录表单参数
  */

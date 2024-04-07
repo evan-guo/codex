@@ -1,7 +1,7 @@
 package com.codex.security.captcha;
 
 /**
- * @author guowei
+ * @author evan guo
  * @since 2023-01-13
  * 验证码生成器
  */
