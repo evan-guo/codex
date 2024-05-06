@@ -16,7 +16,6 @@ import org.springframework.context.annotation.Configuration;
  * @author evan guo
  * @since 1.0
  */
-@MapperScan("com.codex.core.mybatis.mapper")
 @ComponentScan
 @EnableSpringUtil
 @EnableConfigurationProperties({CodexProperties.class})
