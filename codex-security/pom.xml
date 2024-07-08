@@ -10,6 +10,7 @@
     </parent>
 
     <artifactId>codex-security</artifactId>
+    <description>登录鉴权</description>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -33,7 +34,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-oauth2-client</artifactId>
-            <version>3.2.3</version>
         </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>

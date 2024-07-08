@@ -9,9 +9,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import java.util.Map;
 
 /**
- * @author guo_wei
- * @since 2023-01-13
  * 抽象验证码处理器，实现了一些共用的逻辑
+ *
+ * @author guo_wei
+ * @since 1.0.0
  */
 public abstract class AbstractCaptchaProcessor<C extends Captcha> implements CaptchaProcessor {
 
@@ -78,7 +79,7 @@ public abstract class AbstractCaptchaProcessor<C extends Captcha> implements Cap
      */
     private void save(String account, C captcha) {
         String captchaType = StrUtil.lowerFirst(StrUtil.subBefore(getClass().getSimpleName(), "CaptchaProcessor", true));
-        redisTemplate.opsForHash().put(SecurityCacheKey.SECURITY_CAPTCHA + captchaType, account, captcha);
+        redisTemplate.opsForHash().put(SecurityCacheKey.SECURITY_CAPTCHA + captchaType, account, captcha.getCode());
     }
 
     /**

@@ -3,3 +3,16 @@ spring:
     name: codex
   profiles:
     active: dev
+mybatis-flex:
+  global-config:
+    print-banner: false
+springdoc:
+  writer-with-order-by-keys: true
+  swagger-ui:
+    enabled: true
+    tagsSorter: alpha
+    operationsSorter: alpha
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn

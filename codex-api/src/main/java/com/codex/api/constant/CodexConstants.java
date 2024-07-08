@@ -4,7 +4,6 @@ package com.codex.api.constant;
  * Codex常量
  *
  * @author evan guo
- * @since 1.0.0
  */
 public class CodexConstants {
     /**

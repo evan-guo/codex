@@ -6,9 +6,10 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 
 /**
- * @author evan guo
- * @since 2023-01-16
  * 短信登录验证信息封装
+ *
+ * @author evan guo
+ * @since 1.0.0
  */
 public class SmsAuthenticationToken extends AbstractAuthenticationToken {
 

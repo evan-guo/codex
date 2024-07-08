@@ -9,9 +9,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
 /**
- * @author evan guo
- * @since 2023-01-16
  * 短信登录验证逻辑，由于短信验证码的验证在过滤器里已完成，这里直接读取用户信息即可
+ *
+ * @author evan guo
+ * @since 1.0.0
  */
 @RequiredArgsConstructor
 @Component

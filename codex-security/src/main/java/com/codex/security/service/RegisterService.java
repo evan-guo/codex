@@ -1,6 +1,6 @@
 package com.codex.security.service;
 
-import com.codex.security.form.form.UserRegisterForm;
+import com.codex.security.model.form.UserRegisterForm;
 
 /**
  * @author evan guo

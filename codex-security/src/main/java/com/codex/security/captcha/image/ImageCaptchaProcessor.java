@@ -5,13 +5,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
+import jakarta.servlet.http.HttpServletResponse;
+
 import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author evan guo
- * @since 2023-01-13
  * 图片验证码处理器
+ *
+ * @author evan guo
+ * @since 1.0.0
  */
 @RequiredArgsConstructor
 @Component

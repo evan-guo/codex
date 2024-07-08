@@ -18,7 +18,7 @@ import java.util.Date;
  * @author evan guo
  * @since 1.0.0
  */
-@CodexApi
+@CodexApi(name = "租户")
 @Data
 @Builder
 @NoArgsConstructor
@@ -51,10 +51,5 @@ public class Tenant implements Serializable {
      * 状态
      */
     private Integer status;
-
-    /**
-     * 测试
-     */
-    private Integer testColumn;
 
 }

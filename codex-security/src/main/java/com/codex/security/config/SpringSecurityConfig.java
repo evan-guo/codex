@@ -1,40 +1,51 @@
 package com.codex.security.config;
 
+import com.codex.security.filter.JwtAuthenticationFilter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 /**
  * @author evan guo
  * SpringSecuirty配置
  */
 @EnableWebSecurity
+@RequiredArgsConstructor
 @Configuration
 public class SpringSecurityConfig {
+
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final UserDetailsService userDetailsService;
 
     /**
      * 配置 Spring Security 中的过滤器链
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests()
-                .anyRequest().authenticated()
-                // 关闭csrf
-                .and().csrf().disable()
-                // 关闭session
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().build();
+        return http.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(sessionCreationPolicy -> sessionCreationPolicy.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authenticationProvider(authenticationProvider()).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 
     /**
@@ -45,13 +56,33 @@ public class SpringSecurityConfig {
         return configuration.getAuthenticationManager();
     }
 
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+
+
     /**
      * 配置路径放行规则
      */
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         // 对于下列接口无条件放行
-        return web -> web.ignoring().antMatchers("/oauth/**");
+        List<String> ignoringList = List.of(
+                "/oauth/**",
+                "/doc.html",
+                "/swagger-ui/**",
+                "/webjars/**",
+                "/v3/**",
+                "/**/*.css",
+                "/**/*.js",
+                "/**/*.png",
+                "/**/*.gif"
+        );
+        return web -> web.ignoring().requestMatchers(ignoringList.toArray(new String[0]));
     }
 
     /**
@@ -71,7 +102,6 @@ public class SpringSecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 
 }
 

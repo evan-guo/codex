@@ -3,10 +3,12 @@ package com.codex.security.controller;
 import com.codex.security.captcha.CaptchaProcessor;
 import com.codex.security.captcha.CaptchaProcessorFactory;
 import com.codex.security.exception.CaptchaException;
-import com.codex.security.form.form.UserLoginForm;
-import com.codex.security.form.form.UserRegisterForm;
+import com.codex.security.model.form.UserLoginForm;
+import com.codex.security.model.form.UserRegisterForm;
 import com.codex.security.service.LoginService;
 import com.codex.security.service.RegisterService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +20,7 @@ import java.util.Map;
  * @since 2023-01-05
  * OAuth相关接口
  */
+@Tag(name = "Oauth鉴权")
 @RequiredArgsConstructor
 @RequestMapping("/oauth")
 @RestController
@@ -27,12 +30,12 @@ public class OAuthController {
     private final CaptchaProcessorFactory captchaProcessorFactory;
     private final Map<String, RegisterService> registerServiceMap;
 
-
     /**
      * 注册
      * @param mode 注册模式
      * @param form 注册表单参数
      */
+    @Operation(summary = "注册")
     @PostMapping("/register")
     public void register(@RequestParam(required = false) String mode, @RequestBody UserRegisterForm form) {
         RegisterService registerService;
@@ -53,6 +56,7 @@ public class OAuthController {
      * @param mode 登录模式
      * @param form 登录表单参数
      */
+    @Operation(summary = "登录")
     @PostMapping("/login/{mode}")
     public String login(@PathVariable String mode, @RequestBody UserLoginForm form) {
         String className = mode + LoginService.class.getSimpleName() + "Impl";
@@ -68,6 +72,7 @@ public class OAuthController {
      * @param type    验证码类型
      * @param account 账号
      */
+    @Operation(summary = "验证码")
     @GetMapping("/captcha/{type}")
     public void captcha(@PathVariable String type, @RequestParam String account) {
         CaptchaProcessor captchaProcessor = captchaProcessorFactory.findCaptchaProcessor(type);
@@ -77,6 +82,7 @@ public class OAuthController {
     /**
      * 注销
      */
+    @Operation(summary = "登出")
     @GetMapping("/logout")
     public void logout() {
     }

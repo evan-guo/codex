@@ -5,7 +5,7 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.jwt.JWTPayload;
 import cn.hutool.jwt.JWTUtil;
 import com.alibaba.fastjson2.JSONObject;
-import com.codex.security.form.form.UserLoginForm;
+import com.codex.security.model.form.UserLoginForm;
 import com.codex.security.properties.TokenProperties;
 import com.codex.security.properties.SecurityCacheKey;
 import com.codex.security.service.LoginService;
@@ -59,7 +59,7 @@ public class PasswordLoginServiceImpl implements LoginService {
         // 自定义参数
         UserDetails user = (UserDetails) authenticate.getPrincipal();
         String username = user.getUsername();
-        payload.put("username", username);
+        payload.put(JWTPayload.SUBJECT, username);
         // 生成Token
         String token = JWTUtil.createToken(payload, tokenProperties.getSecret().getBytes());
         // 相关信息存入Redis

@@ -13,9 +13,10 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 /**
- * @author evan guo
- * @since 2023-01-14
  * 邮箱验证码处理器
+ *
+ * @author evan guo
+ * @since 1.0.0
  */
 @RequiredArgsConstructor
 @Component

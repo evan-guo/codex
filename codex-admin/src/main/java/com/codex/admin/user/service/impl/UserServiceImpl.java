@@ -4,7 +4,7 @@
 //import com.codex.admin.user.entity.User;
 //import com.codex.admin.user.service.UserService;
 //import com.codex.mapper.CodexMapper;
-//import com.codex.security.form.form.UserRegisterForm;
+//import com.codex.security.form.UserRegisterForm;
 //import com.codex.security.service.RegisterCustomizer;
 //import com.mybatisflex.core.query.QueryWrapper;
 //import lombok.RequiredArgsConstructor;

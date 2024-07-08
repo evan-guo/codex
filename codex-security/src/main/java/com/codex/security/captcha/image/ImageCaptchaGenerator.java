@@ -13,9 +13,10 @@ import java.awt.image.BufferedImage;
 import java.util.Random;
 
 /**
- * @author evan guo
- * @since 2023-01-13
  * 图形验证码生成器
+ *
+ * @author evan guo
+ * @since 1.0.0
  */
 @RequiredArgsConstructor
 @Component
@@ -26,7 +27,7 @@ public class ImageCaptchaGenerator implements CaptchaGenerator {
     @Override
     public Captcha generate() {
         if (!captchaProperties.getEmail().getEnable()) {
-            throw new CaptchaException("未开启图片验证码功能");
+            throw new CaptchaException("未启用图片验证码功能, 请配置codex.security.captcha.email.enable=true");
         }
         // 取出图片宽高参数
         int width = captchaProperties.getImage().getWidth();

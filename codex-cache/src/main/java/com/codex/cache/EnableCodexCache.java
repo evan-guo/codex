@@ -7,7 +7,7 @@ package com.codex.cache;
  * @author evanguo
  * @since 1.0.0
  */
-public @interface Cache {
+public @interface EnableCodexCache {
 
     /**
      * 启用缓存

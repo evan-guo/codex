@@ -1,7 +1,7 @@
 package com.codex.security.service.impl;
 
-import com.codex.security.form.form.UserLoginForm;
-import com.codex.security.form.form.UserRegisterForm;
+import com.codex.security.model.form.UserLoginForm;
+import com.codex.security.model.form.UserRegisterForm;
 import com.codex.security.service.RegisterCustomizer;
 import com.codex.security.service.RegisterService;
 import com.codex.security.util.ValidationUtil;

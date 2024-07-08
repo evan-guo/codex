@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
  * Codex-Security自动配置类
  *
  * @author evan guo
- * @since 1.0
+ * @since 1.0.0
  */
 @ComponentScan
 @Configuration(proxyBeanMethods = false)

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.11</version>
+		<version>3.3.1</version>
 		<relativePath/>
 	</parent>
 
@@ -17,22 +17,23 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<java.version>11</java.version>
-		<spring.boot.version>2.7.11</spring.boot.version>
-		<mybatis-flex.version>1.8.8</mybatis-flex.version>
-		<hutool.version>5.8.24</hutool.version>
-		<fastjson.version>2.0.45</fastjson.version>
+		<java.version>21</java.version>
+		<mybatis-flex.version>1.9.3</mybatis-flex.version>
+		<hutool.version>5.8.29</hutool.version>
+		<fastjson2.version>2.0.51</fastjson2.version>
 	</properties>
 
 	<modules>
-		<!-- 核心功能 -->
+		<!-- 通用接口 -->
 		<module>codex-api</module>
 		<module>codex-core</module>
 		<!-- 管理后台 -->
         <module>codex-admin</module>
 		<!-- 登录鉴权模块 -->
 		<module>codex-security</module>
+		<!-- 通用Mapper -->
 		<module>codex-mapper</module>
+		<!-- 缓存模块 -->
 		<module>codex-cache</module>
 	</modules>
 
@@ -40,20 +41,12 @@
 		<repository>
 			<id>aliyun-maven</id>
 			<name>Aliyun Maven Repository</name>
-			<url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+			<url>https://maven.aliyun.com/nexus/content/groups/public/</url>
 		</repository>
 	</repositories>
 
 	<dependencyManagement>
 		<dependencies>
-			<!--SpringBoot版本-->
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-parent</artifactId>
-				<version>${spring.boot.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
 			<!--MyBatisFlex版本-->
 			<dependency>
 				<groupId>com.mybatis-flex</groupId>
@@ -70,10 +63,11 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<!--FastJson2版本-->
 			<dependency>
 				<groupId>com.alibaba.fastjson2</groupId>
 				<artifactId>fastjson2</artifactId>
-				<version>${fastjson.version}</version>
+				<version>${fastjson2.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
@@ -84,22 +78,10 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>com.github.xiaoymin</groupId>
+			<artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+			<version>4.4.0</version>
+		</dependency>
 	</dependencies>
-
-	<build>
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-				<includes>
-					<include>**/*</include>
-				</includes>
-				<excludes>
-					<exclude>
-						*.properties
-					</exclude>
-				</excludes>
-			</resource>
-		</resources>
-	</build>
-
 </project>

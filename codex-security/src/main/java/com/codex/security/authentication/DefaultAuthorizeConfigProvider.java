@@ -20,7 +20,7 @@ public class DefaultAuthorizeConfigProvider implements AuthorizeConfigProvider {
 
 	@Override
 	public boolean config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
-		config.antMatchers("/oauth/*").permitAll();
+		config.requestMatchers("/oauth/*").permitAll();
 		return false;
 	}
 

@@ -10,9 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 /**
- * @author evan guo
- * @since 2023-01-13
  * 短信验证码生成器
+ *
+ * @author evan guo
+ * @since 1.0.0
  */
 @RequiredArgsConstructor
 @Component

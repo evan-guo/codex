@@ -1,9 +1,10 @@
 package com.codex.security.captcha;
 
 /**
- * @author evan guo
- * @since 2023-01-13
  * 验证码处理器，实现它以支持不同的验证码处理逻辑
+ *
+ * @author evan guo
+ * @since 1.0.0
  */
 public interface CaptchaProcessor {
 

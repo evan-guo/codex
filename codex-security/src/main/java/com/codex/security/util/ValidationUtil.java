@@ -3,19 +3,20 @@ package com.codex.security.util;
 import com.codex.security.exception.SecurityException;
 import lombok.SneakyThrows;
 
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
+ * 校验工具，被校验的Bean的字段属性需使用javax.validation系列注解
+ *
  * @author evan guo
  * @since 2023-01-16
- * 校验工具，被校验的Bean的字段属性需使用javax.validation系列注解
  */
 public class ValidationUtil {
 

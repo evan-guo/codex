@@ -7,9 +7,10 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 /**
- * @author guo_wei
- * @since 2023-01-13
  * 短信验证码处理器
+ *
+ * @author guo_wei
+ * @since 1.0.0
  */
 @RequiredArgsConstructor
 @Component

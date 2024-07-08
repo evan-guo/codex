@@ -1,9 +1,9 @@
-package com.codex.security.form.form;
+package com.codex.security.model.form;
 
 import com.alibaba.fastjson2.JSONObject;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotBlank;
 
 /**
  * @author evan guo

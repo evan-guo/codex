@@ -13,9 +13,10 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 /**
- * @author evan guo
- * @since 2023-01-13
  * 验证码抽象类
+ *
+ * @author evan guo
+ * @since 1.0.0
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @NoArgsConstructor

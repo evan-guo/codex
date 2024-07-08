@@ -6,58 +6,39 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://47.100.36.143:13306/codex_admin?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+    url: jdbc:mysql://sh-cdb-ga617of6.sql.tencentcdb.com:63895/codex_admin?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
     username: root
-    password: 72Vf^xXgc$&4Xh4K
+    password: eO,+9XvT-u@i+c|%D=
     hikari:
       minimum-idle: 3
       maximum-pool-size: 10
-      max-lifetime: 30000   #不能小于30秒，否则默认回到1800秒
+      max-lifetime: 30000
       connection-test-query: SELECT 1
-  redis:
-    # 地址
-    host: 49.235.125.92
-    # 端口，默认为6379
-    port: 6379
-    # 数据库索引
-    database: 0
-    # 密码(如没有密码请注释掉)
-    password: 'pl,okm123'
-    # 连接超时时间
-    timeout: 10s
+  data:
+    redis:
+      host: 49.235.125.92
+      port: 6379
+      database: 0
+      password: 'pl,okm123'
+      timeout: 10s
 # codex项目配置
 codex:
   db:
     ddl-auto: true
   response-advice-packages: com.codex.admin
   security:
-    login:
-      token:
-        secret: HjXtbpyg5U5V33bKnQPwUBauqxGKzynt
-        duration: 2h
+    token:
+      secret: HjXtbpyg5U5V33bKnQPwUBauqxGKzynt
+      duration: 2h
     captcha:
       image:
+        enable: true
         length: 4
         duration: 5m
       email:
+        enable: true
         account: 15021688037@163.com
         password: CHRSDWJPZNIKTUCV
         subject: 您有一个新的验证码
       sms:
         enable: true
-# springdoc-openapi项目配置
-springdoc:
-  writer-with-order-by-keys: true
-  swagger-ui:
-    disable-swagger-default-url: true
-    enabled: true
-    tagsSorter: alpha
-    operationsSorter: method
-# knife4j的增强配置
-knife4j:
-  enable: true
-  setting:
-    language: zh_cn
-mybatis-flex:
-  configuration:
-    map-underscore-to-camel-case: true

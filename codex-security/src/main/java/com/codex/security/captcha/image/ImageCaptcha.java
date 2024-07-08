@@ -9,9 +9,10 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 /**
- * @author evan guo
- * @since 2023-01-13
  * 图形验证码
+ *
+ * @author evan guo
+ * @since 1.0.0
  */
 @Setter
 @Getter
