@@ -5,6 +5,7 @@ package com.codex.security.authentication;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.stereotype.Component;
 
@@ -19,9 +20,8 @@ import org.springframework.stereotype.Component;
 public class DefaultAuthorizeConfigProvider implements AuthorizeConfigProvider {
 
 	@Override
-	public boolean config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
-		config.requestMatchers("/oauth/*").permitAll();
+	public boolean config(AuthorizeHttpRequestsConfigurer<HttpSecurity>.AuthorizationManagerRequestMatcherRegistry customizer) {
+		customizer.requestMatchers("/oauth/**").permitAll();
 		return false;
 	}
-
 }

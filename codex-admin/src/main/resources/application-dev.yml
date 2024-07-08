@@ -21,6 +21,8 @@ spring:
       database: 0
       password: 'pl,okm123'
       timeout: 10s
+  liquibase:
+    enabled: false
 # codex项目配置
 codex:
   db:

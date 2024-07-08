@@ -35,18 +35,17 @@ public class PhoneLoginServiceImpl implements LoginService {
     private final AuthenticationManager authenticationManager;
     private final TokenProperties tokenProperties;
     private final RedisTemplate<String, Object> redisTemplate;
-    // private final SmsCodeAuthenticationProvider smsCodeAuthenticationProvider;
     private final SmsAuthenticationProvider smsAuthenticationProvider;
 
     @Override
     public String login(UserLoginForm form) {
         ValidationUtil.validateThrow(form, UserLoginForm.LoginByValidateCode.class);
-        smsCaptchaProcessor.validate(form.getUsername(), form.getValidateCode());
+        smsCaptchaProcessor.validate(form.getUsername(), form.getCode());
         // 进行用户认证, 获取认证对象
         SmsAuthenticationToken authenticationToken = new SmsAuthenticationToken(form.getUsername());
         // 认证
-         Authentication authenticate = smsAuthenticationProvider.authenticate(authenticationToken);
-//        Authentication authenticate = authenticationManager.authenticate(authenticationToken);
+//         Authentication authenticate = smsAuthenticationProvider.authenticate(authenticationToken);
+        Authentication authenticate = authenticationManager.authenticate(authenticationToken);
         // 认证失败
         if (Objects.isNull(authenticate)){
             throw new SecurityException("登录认证失败");

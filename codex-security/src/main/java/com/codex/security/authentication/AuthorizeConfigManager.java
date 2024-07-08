@@ -3,7 +3,9 @@
  */
 package com.codex.security.authentication;
 
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AuthorizeHttpRequestsConfigurer;
 import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 
 /**
@@ -15,6 +17,6 @@ import org.springframework.security.config.annotation.web.configurers.Expression
  */
 public interface AuthorizeConfigManager {
 
-    void config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config);
+    void config(HttpSecurity http);
 
 }

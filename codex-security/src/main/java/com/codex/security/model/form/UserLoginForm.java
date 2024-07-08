@@ -19,7 +19,7 @@ public class UserLoginForm {
     private String password;
 
     @NotBlank(message = "验证码不能为空", groups = {LoginByValidateCode.class})
-    private String validateCode;
+    private String code;
 
     /**
      * 账号密码登录

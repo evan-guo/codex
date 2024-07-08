@@ -1,5 +1,6 @@
 package com.codex.security.config;
 
+import com.codex.security.authentication.AuthorizeConfigManager;
 import com.codex.security.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -16,6 +17,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -35,17 +37,18 @@ public class SpringSecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final UserDetailsService userDetailsService;
+    private final AuthorizeConfigManager authorizeConfigManager;
 
     /**
      * 配置 Spring Security 中的过滤器链
      */
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
-                .csrf(AbstractHttpConfigurer::disable)
+        http.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionCreationPolicy -> sessionCreationPolicy.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authenticationProvider(authenticationProvider()).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+                .authenticationProvider(authenticationProvider()).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        this.authorizeConfigManager.config(http);
+        return http.build();
     }
 
     /**
@@ -72,15 +75,10 @@ public class SpringSecurityConfig {
     public WebSecurityCustomizer webSecurityCustomizer() {
         // 对于下列接口无条件放行
         List<String> ignoringList = List.of(
-                "/oauth/**",
                 "/doc.html",
                 "/swagger-ui/**",
                 "/webjars/**",
-                "/v3/**",
-                "/**/*.css",
-                "/**/*.js",
-                "/**/*.png",
-                "/**/*.gif"
+                "/v3/**"
         );
         return web -> web.ignoring().requestMatchers(ignoringList.toArray(new String[0]));
     }

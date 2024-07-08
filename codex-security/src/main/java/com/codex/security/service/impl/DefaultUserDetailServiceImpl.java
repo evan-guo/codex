@@ -18,7 +18,7 @@ public class DefaultUserDetailServiceImpl extends InMemoryUserDetailsManager {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        return userDetails;
+        return null;
     }
 
 }

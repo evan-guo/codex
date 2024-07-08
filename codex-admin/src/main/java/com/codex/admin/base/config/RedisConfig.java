@@ -1,4 +1,4 @@
-package com.codex.security.config;
+package com.codex.admin.base.config;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
