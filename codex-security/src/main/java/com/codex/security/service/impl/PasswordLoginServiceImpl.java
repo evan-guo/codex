@@ -6,7 +6,7 @@ import cn.hutool.jwt.JWTPayload;
 import cn.hutool.jwt.JWTUtil;
 import com.alibaba.fastjson2.JSONObject;
 import com.codex.security.model.form.UserLoginForm;
-import com.codex.security.properties.TokenProperties;
+import com.codex.security.properties.CodexSecurityProperties;
 import com.codex.security.properties.SecurityCacheKey;
 import com.codex.security.service.LoginService;
 import com.codex.security.util.ValidationUtil;
@@ -32,7 +32,7 @@ import java.util.Objects;
 public class PasswordLoginServiceImpl implements LoginService {
 
     private final AuthenticationManager authenticationManager;
-    private final TokenProperties tokenProperties;
+    private final CodexSecurityProperties codexSecurityProperties;
     private final RedisTemplate<String, Object> redisTemplate;
 
     @Override
@@ -49,7 +49,7 @@ public class PasswordLoginServiceImpl implements LoginService {
         // 准备生成Token的参数
         JSONObject payload  = new JSONObject();
         DateTime now = DateTime.now();
-        DateTime newTime = now.offsetNew(DateField.MINUTE, (int) tokenProperties.getDuration().toMinutes());
+        DateTime newTime = now.offsetNew(DateField.MINUTE, (int) codexSecurityProperties.getToken().getDuration().toMinutes());
         // 签发时间
         payload.put(JWTPayload.ISSUED_AT, now);
         // 过期时间
@@ -61,10 +61,10 @@ public class PasswordLoginServiceImpl implements LoginService {
         String username = user.getUsername();
         payload.put(JWTPayload.SUBJECT, username);
         // 生成Token
-        String token = JWTUtil.createToken(payload, tokenProperties.getSecret().getBytes());
+        String token = JWTUtil.createToken(payload, codexSecurityProperties.getToken().getSecret().getBytes());
         // 相关信息存入Redis
-        redisTemplate.opsForValue().set(SecurityCacheKey.OAUTH_TOKEN + token, username, tokenProperties.getDuration());
-        redisTemplate.opsForValue().set(SecurityCacheKey.OAUTH_USER + username, user, tokenProperties.getDuration());
+        redisTemplate.opsForValue().set(SecurityCacheKey.OAUTH_TOKEN + token, username, codexSecurityProperties.getToken().getDuration());
+        redisTemplate.opsForValue().set(SecurityCacheKey.OAUTH_USER + username, user, codexSecurityProperties.getToken().getDuration());
         return token;
     }
 }

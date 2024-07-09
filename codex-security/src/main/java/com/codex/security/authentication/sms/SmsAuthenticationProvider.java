@@ -26,7 +26,7 @@ public class SmsAuthenticationProvider implements AuthenticationProvider {
         String username = (String) authentication.getPrincipal();
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         if (userDetails == null) {
-            throw new SecurityException("无法获取用户信息");
+            throw new SecurityException("账号不存在");
         }
         // 包装用户信息
         SmsAuthenticationToken authenticationToken = new SmsAuthenticationToken(userDetails, userDetails.getAuthorities());

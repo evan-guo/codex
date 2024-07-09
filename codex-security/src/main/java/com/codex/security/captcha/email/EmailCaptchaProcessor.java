@@ -10,6 +10,7 @@ import com.codex.security.exception.SecurityException;
 import com.codex.security.properties.SecurityCaptchaProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 /**
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Component;
  * @author evan guo
  * @since 1.0.0
  */
+@Slf4j
 @RequiredArgsConstructor
 @Component
 public class EmailCaptchaProcessor extends AbstractCaptchaProcessor<Captcha> {
@@ -43,7 +45,8 @@ public class EmailCaptchaProcessor extends AbstractCaptchaProcessor<Captcha> {
         mailAccount.setFrom(captchaProperties.getEmail().getAccount());
         mailAccount.setPass(captchaProperties.getEmail().getPassword());
         mailAccount.setSslEnable(captchaProperties.getEmail().getSslEnable());
-        MailUtil.send(mailAccount, account, captchaProperties.getEmail().getSubject(), validateCode.getCode(), false);
+        String send = MailUtil.send(mailAccount, account, captchaProperties.getEmail().getSubject(), validateCode.getCode(), false);
+        log.info("发送邮箱验证码成功{}，account：{}，code：{}", send, account, validateCode.getCode());
     }
 
 }

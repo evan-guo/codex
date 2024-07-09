@@ -31,7 +31,7 @@ import java.io.IOException;
 @SuppressWarnings("NullableProblems")
 @RequiredArgsConstructor
 @Component
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     private final UserDetailsService userDetailsService;
     private final RedisTemplate<String, Object> redisTemplate;

@@ -77,9 +77,9 @@ public abstract class AbstractCaptchaProcessor<C extends Captcha> implements Cap
      * @param account 账号
      * @param captcha  验证码
      */
-    private void save(String account, C captcha) {
+    private void save(String account, Captcha captcha) {
         String captchaType = StrUtil.lowerFirst(StrUtil.subBefore(getClass().getSimpleName(), "CaptchaProcessor", true));
-        redisTemplate.opsForHash().put(SecurityCacheKey.SECURITY_CAPTCHA + captchaType, account, captcha.getCode());
+        redisTemplate.opsForHash().put(SecurityCacheKey.SECURITY_CAPTCHA + captchaType, account, captcha);
     }
 
     /**
@@ -88,7 +88,7 @@ public abstract class AbstractCaptchaProcessor<C extends Captcha> implements Cap
      * @return 验证码
      */
     @SuppressWarnings("unchecked")
-    private C get(String account) {
+    private Captcha get(String account) {
         String captchaType = StrUtil.lowerFirst(StrUtil.subBefore(getClass().getSimpleName(), "CaptchaProcessor", true));
         return (C) redisTemplate.opsForHash().get(SecurityCacheKey.SECURITY_CAPTCHA + captchaType, account);
     }
